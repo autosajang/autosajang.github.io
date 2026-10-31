@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오토사장 재고관리 — 쿠팡·스마트스토어 주문 파일을 엑셀로 정리</title>
+<meta name="description" content="쿠팡·스마트스토어 주문 파일을 가져오면 출고·재고가 엑셀에서 정리됩니다. 무료판을 먼저 써 보고, 송장까지 한 번에 하고 싶다면 판매본 59,000원(한 번 결제).">
+<meta property="og:title" content="오토사장 재고관리 — 쿠팡·스마트스토어 주문 파일을 엑셀로 정리">
+<meta property="og:description" content="쿠팡·스마트스토어 주문 파일을 가져오면 출고·재고가 엑셀에서 정리됩니다. 무료판을 먼저 써 보고, 송장까지 한 번에 하고 싶다면 판매본 59,000원(한 번 결제).">
+<meta property="og:type" content="website">
+<style>
+:root{--navy:#0f1b33;--navy2:#1a2d55;--gold:#f2c04d;--ink:#1b2333;--muted:#4a5568;--line:#d5dbe6;--card:#f5f7fb;--ok:#1f9d55}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.7 system-ui,-apple-system,"Malgun Gothic","Noto Sans KR",sans-serif;color:var(--ink);background:#fff;overflow-wrap:anywhere}
+.wrap{max-width:44rem;margin:0 auto;padding:0 1.1rem}
+header.hero{background:var(--navy);color:#fff;padding:2.2rem 0 2.4rem;border-top:.5rem solid var(--gold)}
+.tag{display:inline-block;background:var(--gold);color:var(--navy);font-weight:800;font-size:.85rem;padding:.2rem .7rem;border-radius:.4rem}
+h1{font-size:1.75rem;line-height:1.35;margin:.9rem 0 .6rem;letter-spacing:-.02em}
+.mk{background:var(--gold);color:var(--navy);padding:0 .3rem;border-radius:.2rem}
+.lead{color:#d6def0;font-size:1.05rem;margin:0 0 1.3rem}
+.btns{display:flex;flex-wrap:wrap;gap:.7rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:48px;padding:.75rem 1.3rem;border-radius:.6rem;font-weight:800;text-decoration:none;font-size:1rem}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.line{border:2px solid var(--gold);color:var(--gold)}
+.btn.navy{background:var(--navy);color:#fff}
+.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+section{padding:1.8rem 0;border-bottom:1px solid var(--line)}
+h2{font-size:1.35rem;line-height:1.4;margin:0 0 .8rem;color:var(--navy)}
+h2:after{content:"";display:block;width:3rem;height:.3rem;background:var(--gold);margin-top:.4rem;border-radius:.2rem}
+ul{padding-left:1.2rem;margin:.4rem 0}
+li{margin:.25rem 0}
+figure{margin:1rem 0}
+img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:.5rem;display:block}
+figcaption{color:var(--muted);font-size:.9rem;margin-top:.35rem}
+.note{color:var(--muted);font-size:.92rem}
+.tablewrap{overflow-x:auto;margin:.6rem 0}
+table{border-collapse:collapse;width:100%;min-width:20rem;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:.55rem .6rem;text-align:center}
+th{background:var(--navy);color:#fff}
+td:first-child,th:first-child{text-align:left}
+td.yes{color:var(--ok);font-weight:800}
+td.no{color:#8a94a6}
+tr.hl td{background:#fff8e1}
+.cards{display:grid;gap:.9rem;grid-template-columns:1fr}
+@media(min-width:36rem){.cards{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:1.1rem}
+.card.main{border:2px solid var(--gold);background:#fffdf5}
+.card h3{margin:0 0 .3rem;font-size:1.1rem}
+.price{font-size:1.7rem;font-weight:900;color:var(--navy);margin:.1rem 0 .4rem}
+.price small{font-size:.9rem;font-weight:600;color:var(--muted)}
+.box{background:var(--card);border-left:.35rem solid var(--gold);border-radius:.3rem;padding:.8rem 1rem;margin:.8rem 0}
+details{border-bottom:1px solid var(--line)}
+summary{min-height:48px;display:flex;align-items:center;cursor:pointer;font-weight:800;color:var(--navy);padding:.3rem 0}
+details p{margin:.1rem 0 .9rem}
+dl{margin:.4rem 0;display:grid;grid-template-columns:8.5rem 1fr;gap:.35rem .7rem;font-size:.95rem}
+dt{color:var(--muted)}
+dd{margin:0}
+footer{padding:1.6rem 0 3rem;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <span class="tag">오토사장 재고관리</span>
+  <h1>쿠팡·스마트스토어 주문 파일,<br><span class="mk">엑셀 하나로</span> 정리하세요</h1>
+  <p class="lead">내려받은 주문 파일을 가져오면 출고·재고가 정리됩니다. 먼저 무료판으로 써 보고, 송장까지 한 번에 하고 싶을 때 판매본을 고르세요. 월 이용료 없이 한 번만 결제합니다.</p>
+  <div class="btns">
+    <a class="btn gold" href="https://www.payapp.kr/L/z4nfVB">판매본 구매하기 · 59,000원</a>
+    <a class="btn line" href="https://docs.google.com/forms/d/e/1FAIpQLSd8PgsOmswjrjJzwJdrtgLgeyqlV47b52huen3xBjYEE1MigA/viewform">무료판 먼저 받기</a>
+  </div>
+</div></header>
+
+<main class="wrap">
+
+<section id="what">
+  <h2>무엇을 해 주나요</h2>
+  <ul>
+    <li><b>주문자료 가져오기</b> — 쿠팡·스마트스토어에서 내려받은 주문 파일을 고르면 출고 내역에 쌓입니다. 이미 가져온 주문번호는 건너뜁니다.</li>
+    <li><b>한 번에 여러 파일</b> — 쿠팡·스마트스토어 파일을 섞어서 한꺼번에 고를 수 있습니다.</li>
+    <li><b>현재재고·오늘현황</b> — 상품별 남은 재고와 오늘 주문·출고, 오류·미매칭 숫자를 한 화면에서 봅니다.</li>
+    <li><b>상품명매칭표</b> — 판매처마다 다른 상품명을 표준 상품명으로 연결합니다.</li>
+    <li><b>월간 리포트</b> — 버튼 한 번으로 한 달 결과를 만듭니다.</li>
+  </ul>
+  <figure>
+    <img src="img/import.png" width="900" height="474" alt="파일 고르기 화면: 쿠팡·스마트스토어 파일을 여러 개 선택하고 파일마다 새 주문 수가 표시됨" loading="lazy">
+    <figcaption>실제 엑셀 화면 — 파일을 여러 개 골라 한 번에 가져옵니다. (예시 데이터)</figcaption>
+  </figure>
+  <figure>
+    <img src="img/result.png" width="900" height="365" alt="가져오기 결과 화면: 채널·판매처별 새 주문 건수" loading="lazy">
+    <figcaption>가져온 결과가 판매처별로 한눈에 보입니다. (예시 데이터)</figcaption>
+  </figure>
+  <figure>
+    <img src="img/stock.png" width="900" height="384" alt="현재재고 화면: 표준상품명과 현재재고 수량" loading="lazy">
+    <figcaption>상품별 현재재고. (예시 데이터)</figcaption>
+  </figure>
+  <p class="note">쿠팡·스마트스토어에서 주문 파일을 내려받고, 만든 파일을 올리는 일은 직접 하셔야 합니다. 자동 접속·자동 업로드는 없습니다. 윈도우용 엑셀(데스크톱) 전용이며, 자료는 내 컴퓨터의 엑셀 파일 안에만 저장됩니다.</p>
+</section>
+
+<section id="compare">
+  <h2>무료판과 판매본, 뭐가 다른가요</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>기능</th><th>무료판</th><th>판매본</th></tr></thead>
+    <tbody>
+      <tr><td>상품·판매처 등록, 초기재고·입고 입력</td><td class="yes">○</td><td class="yes">○</td></tr>
+      <tr><td>쿠팡·스마트스토어 주문자료 가져오기</td><td class="yes">○</td><td class="yes">○</td></tr>
+      <tr><td>상품명매칭표</td><td class="yes">○</td><td class="yes">○</td></tr>
+      <tr><td>현재재고·오늘현황·오류점검</td><td class="yes">○</td><td class="yes">○</td></tr>
+      <tr><td>월간 리포트</td><td class="yes">○</td><td class="yes">○</td></tr>
+      <tr class="hl"><td>발송관리 자동 누적</td><td class="no">—</td><td class="yes">○</td></tr>
+      <tr class="hl"><td>송장 출력 파일 만들기</td><td class="no">—</td><td class="yes">○</td></tr>
+      <tr class="hl"><td>발송처리 파일 만들기</td><td class="no">—</td><td class="yes">○</td></tr>
+      <tr class="hl"><td>택배사 양식(롯데택배·CJ대한통운)</td><td class="no">—</td><td class="yes">○</td></tr>
+      <tr><td><b>가격</b></td><td><b>0원</b></td><td><b>59,000원</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">송장 기능은 판매본에만 있습니다. 다른 택배사·판매처 양식에 맞추려면 아래 맞춤형을 문의해 주세요.</p>
+</section>
+
+<section id="price">
+  <h2>가격</h2>
+  <div class="cards">
+    <div class="card main">
+      <h3>판매본</h3>
+      <div class="price">59,000원 <small>한 번 결제 · 월 이용료 없음</small></div>
+      <p class="note" style="margin:0 0 .8rem">무료판 기능 전부 + 발송관리·송장 출력 파일·발송처리 파일·택배사 양식(롯데택배·CJ대한통운)</p>
+      <a class="btn gold" style="background:var(--navy);color:var(--gold)" href="https://www.payapp.kr/L/z4nfVB">판매본 구매하기</a>
+    </div>
+    <div class="card">
+      <h3>맞춤형</h3>
+      <div class="price">99,000원 <small>한 번 결제</small></div>
+      <p class="note" style="margin:0 0 .8rem">판매본 + 내 판매처·택배사 양식 1~2개 맞춤, 시트 항목·이름 조정, 수정 2회, 7일 안 전달</p>
+      <a class="btn navy" href="https://pf.kakao.com/_yyiFX/chat">맞춤형 카톡으로 문의하기</a>
+    </div>
+  </div>
+  <p class="note">새 기능 추가·다른 쇼핑몰 추가·자동 연동은 포함되지 않으며 별도 견적입니다. 크몽에서 구매하시는 경우 가격과 환불 기준은 크몽 안내를 따릅니다.</p>
+  <p class="note">결제 전에 아래 환불·청약철회 안내를 꼭 읽어 주세요.</p>
+</section>
+
+<section id="refund">
+  <h2>환불·청약철회 안내</h2>
+  <div class="box">
+    <ul>
+      <li>판매본은 다운로드 파일(엑셀)입니다. 파일을 제공받은 날(다운로드가 가능해진 날)부터 <b>7일 안</b>에는 청약철회를 요청하실 수 있습니다. 다만 파일을 이미 내려받아 사용하신 경우에는 철회가 제한될 수 있습니다.</li>
+      <li>구매 전에 <b>무료판을 먼저 써 보실 수 있습니다.</b> 무료판에는 상품·판매처 등록, 주문자료 가져오기, 상품명매칭표, 현재재고·오늘현황, 월간 리포트가 들어 있습니다(송장 기능은 판매본에만 있습니다).</li>
+      <li>안내와 다른 파일이 제공되었거나 정상적으로 열리지 않는 경우에는 받으신 날부터 3개월 안, 그 사실을 안 날 또는 알 수 있었던 날부터 30일 안에 환불 또는 교환을 요청하실 수 있습니다.</li>
+      <li>요청은 카카오톡 채널 「오토사장」(평일 10:00~18:00)으로 남겨 주세요.</li>
+      <li>맞춤형(주문 제작): 제작 시작 전에는 전액 환불, 제작을 시작한 뒤에는 환불되지 않습니다(수정 2회 포함).</li>
+    </ul>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>자주 묻는 질문</h2>
+  <details><summary>맥에서 되나요?</summary><p>아니요. 윈도우용 엑셀 전용입니다. 맥용 엑셀과 엑셀 웹 버전에서는 정상 동작을 보장하지 않습니다.</p></details>
+  <details><summary>설치해야 하나요?</summary><p>따로 설치하는 프로그램은 없습니다. 받은 ZIP을 풀어 엑셀 파일(xlsm)을 열면 됩니다. 처음 한 번만 「차단 해제」와 「콘텐츠 사용」을 눌러 주세요.</p></details>
+  <details><summary>엑셀은 어떤 버전이어야 하나요?</summary><p>윈도우용 Microsoft 엑셀(데스크톱)에서 쓰도록 만들었습니다. 매크로(버튼)를 허용해야 합니다. 지원하는 세부 버전은 아직 확정하지 못했으니, 무료판으로 먼저 열어 보세요.</p></details>
+  <details><summary>열 때 매크로 경고가 나와요</summary><p>인터넷에서 받은 파일은 윈도우가 매크로를 막아 둡니다. ZIP을 풀기 전에 우클릭 → 속성 → 「차단 해제」 체크 → 확인. 그다음 풀어서 열고, 위쪽 노란 줄의 「콘텐츠 사용」을 누르세요. 믿을 수 있는 파일일 때만 허용합니다.</p></details>
+  <details><summary>무료판과 판매본은 뭐가 다른가요?</summary><p>무료판: 상품·판매처 등록, 쿠팡·스마트스토어 주문자료 가져오기, 현재재고·오늘현황, 월간 리포트. 판매본(59,000원): 여기에 발송관리, 송장 출력 파일 만들기, 발송처리 파일 만들기, 롯데택배·CJ대한통운 양식이 더해집니다.</p></details>
+  <details><summary>내 자료가 밖으로 나가나요?</summary><p>아니요. 자료는 내 컴퓨터의 엑셀 파일 안에만 있습니다. 인터넷으로 보내거나 받는 기능이 없습니다(코드 글자 검색으로 확인). 쿠팡·스마트스토어에서 파일을 내려받고 만든 파일을 올리는 일은 직접 하셔야 합니다.</p></details>
+  <details><summary>환불은 되나요?</summary><p>파일을 받은 날부터 7일 안에 청약철회를 요청할 수 있습니다(이미 내려받아 쓰신 경우 제한될 수 있음). 안내와 다른 파일이 오거나 열리지 않으면 받은 날부터 3개월 안, 안 날부터 30일 안에 환불·교환을 요청하세요. 구매 전 무료판을 먼저 써 보실 수 있습니다.</p></details>
+  <details><summary>문의는 어디로 하나요?</summary><p>카카오톡 채널 「오토사장」에 남겨 주세요. 평일 10:00~18:00(주말·공휴일 휴무), 순서대로 답합니다. 불편한 점을 알려 주셔도 됩니다. 고객 이름·전화번호·주소는 가려서 보내 주세요.</p></details>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <dl>
+    <dt>상호</dt><dd>어라운드굿즈</dd>
+    <dt>대표자</dt><dd>신모은</dd>
+    <dt>통신판매업 신고번호</dt><dd>2020-경기안성-0195</dd>
+    <dt>사업자등록번호</dt><dd>231-49-00597</dd>
+    <dt>전화</dt><dd>010-7534-9543</dd>
+    <dt>문의</dt><dd>카카오톡 채널 「오토사장」 (평일 10:00~18:00) · autosajangkr@gmail.com</dd>
+  </dl>
+  <p>© 오토사장 · 화면의 숫자와 이름은 예시 데이터입니다.</p>
+</div></footer>
+
+</body>
+</html>
