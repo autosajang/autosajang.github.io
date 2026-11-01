@@ -59,6 +59,17 @@ dl{margin:.4rem 0;display:grid;grid-template-columns:8.5rem 1fr;gap:.35rem .7rem
 dt{color:var(--muted)}
 dd{margin:0}
 footer{padding:1.6rem 0 3rem;color:var(--muted);font-size:.9rem}
+.form{display:grid;gap:.9rem;margin:.6rem 0}
+.form label.f{display:grid;gap:.25rem;font-weight:700}
+.form input[type=text],.form input[type=tel],.form input[type=email]{font:inherit;font-size:16px;min-height:48px;padding:.5rem .7rem;border:1px solid var(--line);border-radius:.5rem;width:100%}
+.form fieldset{border:1px solid var(--line);border-radius:.5rem;padding:.5rem .8rem;margin:0}
+.form legend{font-weight:700;padding:0 .3rem}
+.form .opt{display:flex;align-items:center;gap:.5rem;min-height:44px}
+.form .opt input{width:1.3rem;height:1.3rem;flex:none}
+.form .agree{display:flex;align-items:flex-start;gap:.5rem;font-size:.95rem}
+.form .agree input{width:1.3rem;height:1.3rem;flex:none;margin-top:.25rem}
+.form button{font:inherit;border:0;cursor:pointer;width:100%}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
 </head>
 <body>
@@ -68,7 +79,7 @@ footer{padding:1.6rem 0 3rem;color:var(--muted);font-size:.9rem}
   <h1>쿠팡·스마트스토어 주문 파일,<br><span class="mk">엑셀 하나로</span> 정리하세요</h1>
   <p class="lead">내려받은 주문 파일을 가져오면 출고·재고가 정리됩니다. 먼저 무료판으로 써 보고, 송장까지 한 번에 하고 싶을 때 판매본을 고르세요. 월 이용료 없이 한 번만 결제합니다.</p>
   <div class="btns">
-    <a class="btn gold" href="https://www.payapp.kr/L/z4nfVB">판매본 구매하기 · 59,000원</a>
+    <a class="btn gold buy" href="https://www.payapp.kr/L/z4nfVB">판매본 구매하기 · 59,000원</a>
     <a class="btn line" href="https://docs.google.com/forms/d/e/1FAIpQLSd8PgsOmswjrjJzwJdrtgLgeyqlV47b52huen3xBjYEE1MigA/viewform">무료판 먼저 받기</a>
   </div>
 </div></header>
@@ -127,7 +138,7 @@ footer{padding:1.6rem 0 3rem;color:var(--muted);font-size:.9rem}
       <h3>판매본</h3>
       <div class="price">59,000원 <small>한 번 결제 · 월 이용료 없음</small></div>
       <p class="note" style="margin:0 0 .8rem">무료판 기능 전부<br>+ 발송관리·송장 출력·발송처리 파일<br>+ 택배사 양식 맞춤 (롯데택배 기본)</p>
-      <a class="btn gold" style="background:var(--navy);color:var(--gold)" href="https://www.payapp.kr/L/z4nfVB">판매본 구매하기</a>
+      <a class="btn gold buy" style="background:var(--navy);color:var(--gold)" href="https://www.payapp.kr/L/z4nfVB">판매본 구매하기</a>
     </div>
     <div class="card">
       <h3>맞춤형</h3>
@@ -138,6 +149,26 @@ footer{padding:1.6rem 0 3rem;color:var(--muted);font-size:.9rem}
   </div>
   <p class="note">새 기능 추가·다른 쇼핑몰 추가·자동 연동은 포함되지 않으며 별도 견적입니다. 크몽에서 구매하시는 경우 가격과 환불 기준은 크몽 안내를 따릅니다.</p>
   <p class="note">결제 전에 아래 환불·청약철회 안내를 꼭 읽어 주세요.</p>
+</section>
+
+<section id="order" hidden>
+  <h2>판매본 주문하기</h2>
+  <p>아래를 적고 「결제하러 가기」를 누르면 결제 화면이 열립니다. 결제가 끝나면 몇 분 안에 적어 주신 이메일로 판매본 받기 링크가 갑니다.</p>
+  <form class="form" id="orderForm" method="post" accept-charset="UTF-8">
+    <input type="hidden" name="act" value="order">
+    <label class="f">이름<input type="text" name="name" maxlength="20" autocomplete="name" required></label>
+    <label class="f">휴대폰 번호<input type="tel" name="phone" inputmode="numeric" maxlength="16" placeholder="010-0000-0000" autocomplete="tel" required></label>
+    <label class="f">이메일 <span class="note">(판매본 받기 링크가 가는 곳)</span><input type="email" name="email" maxlength="100" autocomplete="email" required></label>
+    <fieldset>
+      <legend>쓰시는 택배사</legend>
+      <label class="opt"><input type="radio" name="courier" value="롯데택배" checked>롯데택배 <span class="note">(바로 사용)</span></label>
+      <label class="opt"><input type="radio" name="courier" value="다른 택배사">다른 택배사 <span class="note">(양식 맞춰 드림)</span></label>
+    </fieldset>
+    <label class="hp" aria-hidden="true">비워 두세요<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+    <label class="agree"><input type="checkbox" name="consent" value="y" required><span>[필수] 주문·결제·판매본 전달을 위해 이름·휴대폰·이메일·택배사를 모으고, 결제를 위해 휴대폰·이메일을 결제대행사(페이앱)에 전달하는 데 동의합니다. 거래 기록은 전자상거래법에 따라 5년 보관합니다.</span></label>
+    <button type="submit" class="btn gold">결제하러 가기 · 59,000원</button>
+  </form>
+  <p class="note">결제는 페이앱 화면에서 진행됩니다. 메일이 안 보이면 스팸함을 확인하시거나 카카오톡 채널 「오토사장」으로 알려 주세요.</p>
 </section>
 
 <section id="refund">
@@ -180,6 +211,18 @@ footer{padding:1.6rem 0 3rem;color:var(--muted);font-size:.9rem}
   </dl>
   <p>© 오토사장 · 화면의 숫자와 이름은 예시 데이터입니다.</p>
 </div></footer>
+
+<script>
+// 주문 폼 켜기: 앱스 스크립트 웹 앱 주소(/exec)를 아래 따옴표 안에 넣으면 주문 폼이 보이고 구매 버튼 2곳이 주문 폼으로 갑니다.
+// 비어 있으면 지금처럼 페이앱 결제 링크로 바로 갑니다(자바스크립트가 꺼진 브라우저도 같음).
+var ORDER_URL = '';
+if (/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(ORDER_URL)) {
+  document.getElementById('orderForm').action = ORDER_URL;
+  document.getElementById('order').hidden = false;
+  var buys = document.querySelectorAll('a.buy');
+  for (var i = 0; i < buys.length; i++) buys[i].href = '#order';
+}
+</script>
 
 </body>
 </html>
